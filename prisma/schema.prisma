@@ -7,22 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Quote {
-  id         String   @id @default(uuid())
-  text       String
-  authorId   String?  
-  tags       String[] @default([])
-  source     String?
-  language   String?  @default("en")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime?
-  importHash String?  @unique
-  isDeleted  Boolean  @default(false)
+model Author {
+  id     Int     @id @default(autoincrement())
+  name   String  @unique
+  quotes Quote[]
 }
 
-model Author {
-  id        String   @id @default(uuid())
-  name      String
-  bio       String?
-  createdAt DateTime @default(now())
+model Quote {
+  id        Int      @id @default(autoincrement())
+  text      String
+  language  String
+  isDeleted Boolean  @default(false)
+  authorId  Int
+  author    Author   @relation(fields: [authorId], references: [id])
+  tags      Tag[]    @relation("QuoteTags")
+}
+
+model Tag {
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  quotes Quote[]  @relation("QuoteTags")
 }
