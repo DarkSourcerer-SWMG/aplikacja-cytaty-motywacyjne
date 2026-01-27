@@ -7,7 +7,7 @@ async function mainMenu() {
   while (true) {
     const { choice } = await inquirer.prompt([
       {
-        type: "rawlist", // 👈 NUMBERED MENU
+        type: "rawlist",
         name: "choice",
         message: "=== QUOTES API TEST MENU ===",
         choices: [
